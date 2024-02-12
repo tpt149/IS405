@@ -1,0 +1,68 @@
+*Bỏ config file mapred-site.xml, sửa file env.sh dòng HADOOP_CLASSPATH
+
+*Khởi chạy Hadoop
+
+cd hadoop-3.3.6/
+
+bin/hdfs namenode -format
+
+sbin/start-dfs.sh
+
+jps
+**có namenodes, datanodes, second,jps**
+
+sbin/start-yarn.sh
+
+bin/hdfs dfs -ls -R /
+
+bin/hdfs dfs -mkdir /user
+
+bin/hdfs dfs -mkdir /user/tpt
+
+bin/hdfs dfs -mkdir input
+
+*Tạo file chứa text
+
+gedit th2.txt
+**chép bài báo t.a**
+
+bin/hdfs dfs -put th2.txt input
+
+*Tải vscode .deb
+
+cd Downloads
+
+ls
+
+sudo dpkg -i **tên file giải nén vscode**
+
+*Sửa file setting.json
+
+"/home/tpt/hadoop-3.3.6/share/hadoop/*/*.jar",
+"/home/tpt/hadoop-3.3.6/share/hadoop/*/lib/*.jar"
+
+*Tạo file WordCount.java trong src
+
+* Thêm code trong link: https://hadoop.apache.org/docs/stable/hadoop-mapreduce-client/hadoop-mapreduce-client-core/MapReduceTutorial.html#Example:_WordCount_v1.0
+
+cd hadoop-3.3.6
+
+bin/hadoop com.sun.tools.javac.Main -d ../th2/bin ../th2/src/WordCount.java
+
+jar cvf Wordcount.jar -C ../th2/bin .
+
+bin/hadoop jar WordCount.jar WordCount input/th2.txt output
+
+bin/hdfs dfs -ls -R /
+**có folder user, tpt, input(th2.txt), output(_SUCCESS, _part-r-00000)
+
+bin/hdfs dfs -cat output/*
+**ra kết quả đếm word**
+
+bin/hdfs dfs -get output output
+
+sbin/stop-all.sh
+
+
+
+

@@ -1,0 +1,20 @@
+cd spark-3.5.0-bin-hadoop3/
+
+sbin/start-all.sh
+
+jps
+**jps, master, worker, sparksubmit**
+
+bin/pyspark
+
+import random
+
+listNo = []
+
+for x in range(20):
+	listNo.append(random.uniform(1,100))
+
+print(listNo)
+
+
+

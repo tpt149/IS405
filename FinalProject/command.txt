@@ -1,0 +1,36 @@
+ssh localhost
+
+ssh-keygen -t rsa -P '' -f ~/.ssh/id_rsa
+
+cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
+
+chmod 0600 ~/.ssh/authorized_keys
+
+ssh-copy-id -i ~/.ssh/id_rsa.pub tpt@master
+ssh-copy-id -i ~/.ssh/id_rsa.pub tpt@slave1
+ssh-copy-id -i ~/.ssh/id_rsa.pub tpt@slave2
+
+cd hadoop-3.3.6/
+
+bin/hdfs datanode -start
+
+bin/hdfs namenode -format
+
+sbin/start-dfs.sh
+
+sbin/start-yarn.sh
+
+bin/hdfs dfs -mkdir /user
+
+bin/hdfs dfs -mkdir /user/tpt
+
+bin/hdfs dfs -put /home/tpt/Downloads/Chennaihouseingsale.csv /user/tpt/data.csv
+
+cd /home/tpt/spark-3.5.0-bin-hadoop3
+
+sbin/start-master.sh
+
+sbin/start-workers.sh
+
+./bin/pyspark --master "local[2]"
+
